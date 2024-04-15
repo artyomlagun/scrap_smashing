@@ -1,0 +1,38 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require "optparse"
+require_relative "../config/constants"
+require_relative "../smashing"
+
+options = {}
+OptionParser.new do |parser|
+  parser.on("-m", "--month DATE", "Define month and year in format MMYYYY") do |value|
+    options[:month] = value
+  end
+  parser.on("-r", "--resolution RESOLUTION", "Define resolution for images") do |value|
+    options[:resolution] = value
+  end
+
+  parser.on("-h", "--help", "Show this help message") do
+    puts parser
+    exit
+  end
+end.parse!
+
+unless options[:month]
+  puts "Month is required parameter"
+  exit
+end
+
+unless options[:month] =~ Constants::DATE_PATTERN
+  puts "Month should be in format MMYYYY"
+  exit
+end
+
+unless options[:resolution]
+  puts "Resolution is required parameter"
+  exit
+end
+
+Smashing.new(options[:month], options[:resolution]).run

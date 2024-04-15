@@ -1,0 +1,4 @@
+downloads/
+tmp/
+response_search.json
+log/*.log
